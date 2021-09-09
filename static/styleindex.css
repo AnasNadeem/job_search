@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* font-family: "Poppins"; */
+}
+  
+body {
+    background-color: rgb(234, 236, 238);
+}
+
+.navbarMainBg {
+    background-color: #fff !important;
+    height: 5rem;
+}
+
+.searchJob{
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+}
+
+.searchJobCard{
+    width: 100%;
+    height: auto;
+    background-color: #fff;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+/* .labelTitle{
+    margin-top: 1rem;
+} */
+
+.formInput{
+    margin-bottom: 1rem;
+    border: 2px solid #000;
+}
+
+.searchBtn{
+    width: 100%;
+    font-size: 1rem;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin: 0.4rem 0;
+    padding: 0.8rem 0.4rem;
+    border: 2px solid #000;
+    outline: none;
+    border-radius: 0;
+}
+
+.cardSubTitle{
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+}
+
+.cardSubTitleList{
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-left: 1rem;
+}

@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% block resultjob %}
+<!-- Job Results Section Begins  -->
+<section class="searchJob">
+    <div class="container">
+        <div class="searchJobCard">
+            <div class="container">
+                {% if results_list %}
+                <h2 class="text-center">Job Results:</h2>
+                {% for result in results_list %}
+                    {% for i in result %}
+                    <div class="row">
+                        <div class="col-lg-8 col-10 mx-auto">
+                            <div class="jobResultsCard">
+                                <h3 class="jobResultsCardTitle">
+                                    {{ i[0] }}
+                                </h3>
+                                <p class="cardSubTitle">
+                                    {{ i[1] }}
+                                </p>
+                                <p class="cardSubTitle">
+                                    Skills Required:
+                                </p>
+                                <!-- {% for skill in  %}
+                                <li class="cardSubTitleList">{{ skill }}</li>
+                                {% endfor %} -->
+                                <div class="row">
+                                    <div class="col-lg-6 col-10 mx-auto">
+                                        <p class="cardSubTitle">
+                                            Salary:
+                                            <span class="cardSubTitleList">
+                                            {{ i[3] }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-6 col-10 mx-auto">
+                                        <p class="cardSubTitle">
+                                            Location:
+                                            <span class="cardSubTitleList">
+                                            {{ i[2] }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <a href="{{ i[4] }}" class="btn searchBtn">Apply on {{ i[5] }}</a>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+                {% else %}
+                <h2 class="text-center">No Job Results Found.</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Job Results Section Ends  -->
+{% endblock resultjob %}
