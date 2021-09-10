@@ -19,7 +19,7 @@ def search_job():
         all_jobs_list.append(indeed_jobs(job_position, job_location))
         all_jobs_list.append(linkedin_jobs(job_position, job_location))
         all_jobs_list.append(shine_jobs(job_position, job_location))
-        all_jobs_list.append(times_jobs(job_position, job_location))
+        # all_jobs_list.append(times_jobs(job_position, job_location))
         return render_template('resultscard.html',results_list = all_jobs_list)
 
 def indeed_jobs(job_position, job_loc):
@@ -51,7 +51,7 @@ def indeed_jobs(job_position, job_loc):
             indeed_job_skills_list = []
             for skill in indeed_job_skills.find_all('li'):
                 indeed_job_skills_list.append(skill.text)
-            indeed_job_list = [indeed_job_comp_title, indeed_job_pos_text, indeed_job_comp_location, indeed_job_salary, indeed_job_link, 'Indeed', indeed_job_skills_list]
+            indeed_job_list = [indeed_job_comp_title, indeed_job_pos_text, indeed_job_comp_location, indeed_job_salary, indeed_job_link, 'Indeed']
             indeed_jobs_list.append(indeed_job_list)
     except Exception as e:
         print(f'Error occured {e}')
@@ -88,29 +88,58 @@ def linkedin_jobs(job_position, job_loc):
 def shine_jobs(job_position, job_loc):
     shine_jobs_list = []
     try:
-        shine_request = requests.get(f'https://www.shine.com/job-search/{job_position}-jobs').text
-        shine_soup = BeautifulSoup(shine_request, 'lxml')
-        print(shine_soup.title)
+        # https://www.shine.com/job-search/website-developer-jobs-in-mumbai
+        job_position_text = job_position.replace(' ', '-')
+        if job_loc:
+            shine_request = requests.get(f'https://www.shine.com/job-search/{job_position_text}-jobs-in-{job_loc}').text
+            shine_soup = BeautifulSoup(shine_request, 'lxml')
+            for i in shine_soup.find_all('li', class_='result-display__profile'):
+                shine_job_card = i.find('div', class_='w-90 ml-25')
+                # Job Title 
+                shine_job_title = shine_job_card.ul.li.h2.text
+                # Job Link
+                shine_job_link = f"https://www.shine.com{shine_job_card.ul.li.h2.a['href']}"
+                # Company Title
+                shine_job_comp_title = shine_job_card.find('span', class_='result-display__profile__company-name').text
+                shine_year_title = shine_job_card.find_all('li', class_="result-display__profile__years")
+                shine_location = shine_year_title[1].text
+                shine_job_list = [shine_job_comp_title, shine_job_title, shine_location, 'Not Mentioned', shine_job_link, 'Shine']
+                shine_jobs_list.append(shine_job_list)
+        else:
+            shine_request = requests.get(f'https://www.shine.com/job-search/{job_position_text}-jobs').text
+            shine_soup = BeautifulSoup(shine_request, 'lxml')
+            for i in shine_soup.find_all('li', class_='result-display__profile'):
+                shine_job_card = i.find('div', class_='w-90 ml-25')
+                # Job Title 
+                shine_job_title = shine_job_card.ul.li.h2.text
+                # Job Link
+                shine_job_link = f"https://www.shine.com{shine_job_card.ul.li.h2.a['href']}"
+                # Company Title
+                shine_job_comp_title = shine_job_card.find('span', class_='result-display__profile__company-name').text
+                shine_year_title = shine_job_card.find_all('li', class_="result-display__profile__years")
+                shine_location = shine_year_title[1].text
+                shine_job_list = [shine_job_comp_title, shine_job_title, shine_location, 'Not Mentioned', shine_job_link, 'Shine']
+                shine_jobs_list.append(shine_job_list)
     except Exception as e:
         print(f'Error occured {e}')
     return shine_jobs_list
 
-def times_jobs(job_position, job_loc):
-    times_jobs_list = []
-    try:
-        tj_param_query = {
-            "searchType":"personalizedSearch",
-            "from":"submit",
-            "txtKeywords":f"{job_position}",
-            "txtLocation":f"{job_loc}"
-        }
-        tj_request = requests.get(f'https://www.timesjobs.com/candidate/job-search.html', params=tj_param_query).text
-        tj_soup = BeautifulSoup(tj_request, 'lxml')
-        print(tj_soup.title)
+# def times_jobs(job_position, job_loc):
+#     times_jobs_list = []
+#     try:
+#         tj_param_query = {
+#             "searchType":"personalizedSearch",
+#             "from":"submit",
+#             "txtKeywords":f"{job_position}",
+#             "txtLocation":f"{job_loc}"
+#         }
+#         tj_request = requests.get(f'https://www.timesjobs.com/candidate/job-search.html', params=tj_param_query).text
+#         tj_soup = BeautifulSoup(tj_request, 'lxml')
+#         print(tj_soup.title)
 
-    except Exception as e:
-        print(f'Error occured {e}')
-    return times_jobs_list
+#     except Exception as e:
+#         print(f'Error occured {e}')
+#     return times_jobs_list
 
 
 if __name__ == '__main__':
