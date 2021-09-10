@@ -13,8 +13,7 @@ def search_job():
     if request.method=='POST':
         job_position = request.form.get('job_position')
         job_location = request.form.get('job_location')
-        
-        # List Structure: [comp_title, job_pos, job_loc, job_salary, job_link, job_website, job_skills] 
+        # List Structure: [comp_title, job_pos, job_loc, job_salary, job_link, job_website, job_skills]
         all_jobs_list = []
         all_jobs_list.append(indeed_jobs(job_position, job_location))
         all_jobs_list.append(linkedin_jobs(job_position, job_location))
